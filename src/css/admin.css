@@ -1,0 +1,48 @@
+.wp-boilerplate-admin-notice {
+  background-color: #f0f9ff;
+  border-left-color: #3b82f6;
+  padding: 12px;
+}
+
+.wp-boilerplate-admin-notice h2 {
+  margin-top: 0;
+  color: #1e40af;
+}
+
+.wp-boilerplate-admin-notice p {
+  margin-bottom: 0;
+}
+
+.wp-boilerplate-admin-page {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.wp-boilerplate-admin-page h1 {
+  color: #1e40af;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.wp-boilerplate-admin-page .nav-tab-wrapper {
+  margin-bottom: 20px;
+}
+
+.wp-boilerplate-admin-page .form-table th {
+  width: 200px;
+}
+
+.wp-boilerplate-admin-page .button-primary {
+  background: #3b82f6;
+  border-color: #2563eb;
+}
+
+.wp-boilerplate-admin-page .button-primary:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}

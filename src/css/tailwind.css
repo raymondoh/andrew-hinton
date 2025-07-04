@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  body {
+    @apply font-sans text-gray-800 bg-gray-50;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold text-gray-900;
+  }
+
+  a {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+
+  p {
+    @apply mb-4;
+  }
+}
+
+/* Component styles */
+@layer components {
+  .btn {
+    @apply inline-block px-4 py-2 rounded-md font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose img {
+    @apply rounded-lg shadow-md;
+  }
+
+  .prose a {
+    @apply text-blue-600 hover:text-blue-800 no-underline hover:underline;
+  }
+
+  .screen-reader-text {
+    @apply sr-only;
+  }
+}
+
+/* Hide the default WordPress gallery block since we are re-building it in our component */
+.wp-block-gallery {
+  display: none;
+}
+.mobile-menu-list a {
+  @apply block px-3 py-2 rounded-md text-base font-medium text-base-content hover:bg-base-200;
+}

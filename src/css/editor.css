@@ -1,0 +1,111 @@
+.editor-styles-wrapper {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+    sans-serif;
+}
+
+.editor-styles-wrapper p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+}
+
+.editor-styles-wrapper h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper h2 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper h3 {
+  font-size: 1.75em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper h4 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper h5 {
+  font-size: 1.25em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper h6 {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.editor-styles-wrapper a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.editor-styles-wrapper a:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+.editor-styles-wrapper ul,
+.editor-styles-wrapper ol {
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+}
+
+.editor-styles-wrapper li {
+  margin-bottom: 0.5em;
+}
+
+.editor-styles-wrapper blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+}
+
+.editor-styles-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+.editor-styles-wrapper figure {
+  margin: 1.5em 0;
+}
+
+.editor-styles-wrapper figcaption {
+  font-size: 0.875em;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 0.5em;
+}
+
+.editor-styles-wrapper code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-family: monospace;
+}
+
+.editor-styles-wrapper pre {
+  background-color: #f3f4f6;
+  padding: 1em;
+  border-radius: 0.25em;
+  overflow-x: auto;
+  margin-bottom: 1.5em;
+}
+
+.editor-styles-wrapper hr {
+  border: 0;
+  border-top: 1px solid #e5e7eb;
+  margin: 2em 0;
+}

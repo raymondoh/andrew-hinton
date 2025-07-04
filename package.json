@@ -1,0 +1,19 @@
+{
+  "name": "wordpress-boilerplate",
+  "version": "1.0.0",
+  "description": "A clean boilerplate for classic WordPress theme development with Tailwind CSS and Alpine.js.",
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "watch": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --watch",
+    "build": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "alpinejs": "^3.14.0",
+    "daisyui": "^4.12.2",
+    "tailwindcss": "^3.4.4",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}
