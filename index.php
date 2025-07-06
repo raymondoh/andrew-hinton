@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-<div class="container mx-auto my-12 px-4">
+<div class="container mx-auto site-content px-4 pt-28 pb-12">
     <header class="page-header mb-12 text-center">
         <h1 class="text-5xl font-bold">From the Blog</h1>
     </header>

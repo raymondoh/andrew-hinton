@@ -79,3 +79,20 @@
 .mobile-menu-list a {
   @apply block px-3 py-2 rounded-md text-base font-medium text-base-content hover:bg-base-200;
 }
+/* Add this to the bottom of src/css/tailwind.css */
+
+/* Add this to the bottom of src/css/tailwind.css */
+
+.site-content {
+  padding-top: 7rem; /* This is equivalent to Tailwind's pt-28 */
+}
+/* Add this to the bottom of src/css/tailwind.css */
+
+body.overflow-hidden .site-content {
+  padding-top: 0 !important;
+}
+/* Add this to the bottom of src/css/tailwind.css */
+
+body.overflow-hidden .site-header {
+  display: none;
+}

@@ -11,21 +11,11 @@
 
 <div x-data="{ open: false, dropdownOpen: false }" class="bg-base-100 shadow-md">
     <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center transition-all duration-300"
-            :class="{ 'py-4': atTop, 'py-2': !atTop }">
+        <div class="flex justify-between items-center py-4">
 
-            <div class="font-bold">
-                <?php if ( has_custom_logo() ) : ?>
-                <div class="site-logo transition-all duration-300" :class="{ 'w-40': atTop, 'w-32': !atTop }">
-                    <?php the_custom_logo(); ?>
-                </div>
-                <?php else : ?>
+            <div class="text-xl font-bold">
                 <a href="<?php echo esc_url(home_url('/')); ?>"
-                    class="text-base-content no-underline hover:opacity-80 transition-all duration-300"
-                    :class="{ 'text-2xl': atTop, 'text-xl': !atTop }">
-                    <?php bloginfo('name'); ?>
-                </a>
-                <?php endif; ?>
+                    class="text-base-content no-underline hover:opacity-80">My Site</a>
             </div>
 
             <nav class="hidden md:flex items-center space-x-4">

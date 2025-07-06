@@ -5,14 +5,20 @@
   "author": "Your Name",
   "license": "GPL-2.0-or-later",
   "scripts": {
-    "watch": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --watch",
-    "build": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --minify"
+    "watch:css": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --watch",
+    "watch:js": "esbuild src/js/main.js --bundle --outfile=assets/js/main.js --watch",
+    "build:css": "tailwindcss -i ./src/css/tailwind.css -o ./assets/css/main.css --minify",
+    "build:js": "esbuild src/js/main.js --bundle --minify --outfile=assets/js/main.js",
+    "watch": "npm-run-all --parallel watch:*",
+    "build": "npm-run-all --parallel build:*"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
     "alpinejs": "^3.14.0",
     "daisyui": "^4.12.2",
+    "esbuild": "^0.25.5",
+    "npm-run-all": "^4.1.5",
     "tailwindcss": "^3.4.4",
     "tailwindcss-animate": "^1.0.7"
   }

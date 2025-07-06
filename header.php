@@ -10,6 +10,11 @@
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
 
-    <header id="masthead" class="site-header">
-        <?php get_template_part('template-parts/components/navbar'); ?>
+    <header x-data="{ atTop: true }" @scroll.window="atTop = (window.scrollY > 10) ? false : true" id="masthead"
+        class="site-header fixed top-0 left-0 right-0 z-40 transition-colors duration-300"
+        :class="{ 'bg-transparent': atTop, 'shadow-lg bg-base-100/95 backdrop-blur-sm': !atTop }">
+        <?php
+    // We will now call the navbar from inside the header
+    get_template_part('template-parts/components/navbar'); 
+    ?>
     </header>
