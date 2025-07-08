@@ -1,31 +1,29 @@
 <?php
 /**
  * Final, Robust Portfolio Grid Component
- * New version with filters positioned on top of a full-width hero image.
  *
  * @package Art_Portfolio_Theme
  */
 
-$posts_per_page = 4;
+$posts_per_page = 4; // Your setting of 4 posts per page
+
 $args = array(
     'post_type'      => 'artwork',
     'posts_per_page' => $posts_per_page,
 );
 $artwork_query = new WP_Query($args);
 $mediums = get_terms( array('taxonomy' => 'medium', 'hide_empty' => true) );
-
-// Get the ID of the current page to fetch its featured image for the hero
-$page_id = get_queried_object_id();
 ?>
 
 <?php if ( $artwork_query->have_posts() ) : ?>
 <section class="portfolio-component fade-in-element" x-data="{
-        inView: false,
+        inView: false, // For the fade-in animation
         loading: false,
         page: 1,
         maxPages: <?php echo $artwork_query->max_num_pages; ?>,
         activeFilter: 'all',
 
+        // This function now only loads posts and dispatches our custom event.
         loadPosts(replace = false) {
             this.loading = true;
             let formData = new FormData();
@@ -39,10 +37,15 @@ $page_id = get_queried_object_id();
             .then(response => {
                 if(response.success) {
                     const grid = this.$refs.gridContainer;
-                    if (replace) { grid.innerHTML = ''; }
+                    if (replace) {
+                        grid.innerHTML = '';
+                    }
                     grid.insertAdjacentHTML('beforeend', response.data.html);
                     this.maxPages = response.data.maxPages;
+                    
+                    // SHOUT the custom event for our main.js file to hear
                     this.$dispatch('posts-loaded');
+
                 } else {
                     if (replace) { grid.innerHTML = '<p class=\'col-span-full text-center\'>No artwork found.</p>'; }
                     this.maxPages = 0;
@@ -54,35 +57,20 @@ $page_id = get_queried_object_id();
         filter(mediumSlug) { this.activeFilter = mediumSlug; this.page = 1; this.loadPosts(true); },
         loadMore() { if (this.page < this.maxPages) { this.page++; this.loadPosts(false); } }
     }" x-intersect:enter="inView = true" :class="{ 'is-visible': inView }">
-
-    <?php if ( has_post_thumbnail($page_id) ) : ?>
-    <div class="relative bg-base-300 mb-16">
-        <div class="absolute inset-0">
-            <?php echo get_the_post_thumbnail($page_id, 'full', array('class' => 'w-full h-full object-cover')); ?>
-        </div>
-        <div class="absolute inset-0 bg-black/50"></div>
-
-        <div class="relative container mx-auto px-4 py-24 md:py-32">
-            <?php if ( ! is_wp_error( $mediums ) && ! empty( $mediums ) ) : ?>
-            <div class="filter-buttons flex justify-center items-center flex-wrap gap-x-6 gap-y-4">
-
-                <button @click="filter('all')"
-                    :class="{ 'text-white border-white': activeFilter === 'all', 'text-white/70 border-transparent': activeFilter !== 'all' }"
-                    class="btn btn-sm btn-ghost uppercase tracking-wider border-b-2 rounded-none transition-colors duration-200 text-xs hover:bg-white hover:text-black">All
-                    Work</button>
-                <?php foreach ( $mediums as $medium ) : ?>
-                <button @click="filter('<?php echo esc_attr($medium->slug); ?>')"
-                    :class="{ 'text-white border-white': activeFilter === '<?php echo esc_attr($medium->slug); ?>', 'text-white/70 border-transparent': activeFilter !== '<?php echo esc_attr($medium->slug); ?>' }"
-                    class="btn btn-sm btn-ghost uppercase tracking-wider border-b-2 rounded-none transition-colors duration-200 text-xs hover:bg-white hover:text-black"><?php echo esc_html($medium->name); ?></button>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php endif; ?>
-
-
     <div class="container mx-auto px-4">
+        <?php if ( ! is_wp_error( $mediums ) && ! empty( $mediums ) ) : ?>
+        <div class="filter-buttons flex justify-center flex-wrap gap-2 mb-12">
+            <button @click="filter('all')"
+                :class="{ 'btn-primary': activeFilter === 'all', 'btn-ghost': activeFilter !== 'all' }" class="btn">All
+                Work</button>
+            <?php foreach ( $mediums as $medium ) : ?>
+            <button @click="filter('<?php echo esc_attr($medium->slug); ?>')"
+                :class="{ 'btn-primary': activeFilter === '<?php echo esc_attr($medium->slug); ?>', 'btn-ghost': activeFilter !== '<?php echo esc_attr($medium->slug); ?>' }"
+                class="btn"><?php echo esc_html($medium->name); ?></button>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
         <div id="portfolio-grid-container" x-ref="gridContainer"
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             <?php

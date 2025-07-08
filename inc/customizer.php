@@ -58,14 +58,14 @@ function wp_boilerplate_customize_register($wp_customize) {
         'type' => 'text',
     ));
 
-    // Add Social Media Section
+    // Social Media Section
     $wp_customize->add_section('wp_boilerplate_social_options', array(
         'title' => __('Social Media', 'wp-boilerplate'),
         'description' => __('Add your social media links', 'wp-boilerplate'),
         'panel' => 'wp_boilerplate_theme_options',
     ));
 
-    // Add Facebook URL
+    // Facebook URL
     $wp_customize->add_setting('wp_boilerplate_facebook_url', array(
         'default' => '',
         'sanitize_callback' => 'esc_url_raw',
@@ -76,37 +76,12 @@ function wp_boilerplate_customize_register($wp_customize) {
         'section' => 'wp_boilerplate_social_options',
         'type' => 'url',
     ));
-
-    // Add Twitter URL
-    $wp_customize->add_setting('wp_boilerplate_twitter_url', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-    ));
-
-    $wp_customize->add_control('wp_boilerplate_twitter_url', array(
-        'label' => __('Twitter URL', 'wp-boilerplate'),
-        'section' => 'wp_boilerplate_social_options',
-        'type' => 'url',
-    ));
-
-    // Add Instagram URL
-    $wp_customize->add_setting('wp_boilerplate_instagram_url', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-    ));
-
-    $wp_customize->add_control('wp_boilerplate_instagram_url', array(
-        'label' => __('Instagram URL', 'wp-boilerplate'),
-        'section' => 'wp_boilerplate_social_options',
-        'type' => 'url',
-    ));
+    // ... other social media fields
 }
 add_action('customize_register', 'wp_boilerplate_customize_register');
 
 /**
  * Render the site title for the selective refresh partial.
- *
- * @return void
  */
 function wp_boilerplate_customize_partial_blogname() {
     bloginfo('name');
@@ -114,8 +89,6 @@ function wp_boilerplate_customize_partial_blogname() {
 
 /**
  * Render the site tagline for the selective refresh partial.
- *
- * @return void
  */
 function wp_boilerplate_customize_partial_blogdescription() {
     bloginfo('description');
@@ -125,6 +98,6 @@ function wp_boilerplate_customize_partial_blogdescription() {
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function wp_boilerplate_customize_preview_js() {
-    wp_enqueue_script('wp-boilerplate-customizer', get_template_directory_uri() . '/assets/js/customizer.js', array('customize-preview'), WP_BOILERPLATE_VERSION, true);
+    wp_enqueue_script('wp-boilerplate-customizer', get_template_directory_uri() . '/assets/js/customizer.js', array('customize-preview'), '1.0.0', true);
 }
 add_action('customize_preview_init', 'wp_boilerplate_customize_preview_js');

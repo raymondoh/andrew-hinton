@@ -34,3 +34,14 @@ if (class_exists('ACF')) {
 if (class_exists('WooCommerce')) {
     require_once WP_BOILERPLATE_DIR . 'inc/woocommerce.php';
 }
+
+/**
+ * Adds the 'active' class to the current menu item for DaisyUI compatibility.
+ */
+function your_theme_name_add_active_class_to_menu_item($classes, $item) {
+    if (in_array('current-menu-item', $classes) || in_array('current-page-ancestor', $classes)) {
+        $classes[] = 'active';
+    }
+    return $classes;
+}
+add_filter('nav_menu_css_class', 'your_theme_name_add_active_class_to_menu_item', 10, 2);

@@ -1,60 +1,58 @@
 <?php
 /**
- * The main template file for displaying the blog archive.
+ * The main template file for displaying the blog archive (Journal).
  *
- * @package WP_Boilerplate
+ * @package Art_Portfolio_Theme
  */
 
 get_header(); ?>
 
-<div class="container mx-auto site-content px-4 pt-28 pb-12">
-    <header class="page-header mb-12 text-center">
-        <h1 class="text-5xl font-bold">From the Blog</h1>
-    </header>
+<div class="container mx-auto px-4">
+    <div class="fade-in-element" x-data="{ inView: false }" x-intersect:enter="inView = true"
+        :class="{ 'is-visible': inView }">
+        <header class="page-header mb-12 text-center">
+            <h1 class="text-2xl font-bold"><?php single_post_title(); ?></h1>
+        </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-        <main id="main" class="site-main lg:col-span-2">
+            <div class="site-main lg:col-span-2">
 
-            <?php if ( have_posts() ) : ?>
+                <?php if ( have_posts() ) : ?>
 
-            <div class="space-y-12">
+                <div class="space-y-12">
+                    <?php
+                    // Start the Loop to display each post summary.
+                    while ( have_posts() ) :
+                        the_post();
+                        get_template_part( 'template-parts/content/content', get_post_format() );
+                    endwhile;
+                    ?>
+                </div>
+
                 <?php
-                // Start the Loop.
-                while ( have_posts() ) :
-                    the_post();
+                    // Display pagination if there are more posts than can fit on one page.
+                    the_posts_pagination( array(
+                        'prev_text' => __( '&laquo; Previous', 'wp-boilerplate' ),
+                        'next_text' => __( 'Next &raquo;', 'wp-boilerplate' ),
+                        'screen_reader_text' => ' ',
+                        'before_page_number' => '<span class="btn btn-ghost">',
+                        'after_page_number'  => '</span>',
+                    ) );
 
-                    /*
-                     * Include the Post-Format-specific template for the content.
-                     * We will create this file in the next step.
-                     */
-                    get_template_part( 'template-parts/content/content', get_post_format() );
+                else :
+                    // If no posts are found, display a "not found" message.
+                    get_template_part( 'template-parts/content/content-none' );
 
-                // End the loop.
-                endwhile;
+                endif;
                 ?>
             </div>
-            <?php
-                // Previous/next page navigation.
-                the_posts_pagination( array(
-                    'prev_text' => __( '&laquo; Previous', 'wp-boilerplate' ),
-                    'next_text' => __( 'Next &raquo;', 'wp-boilerplate' ),
-                    'screen_reader_text' => ' ', // Hides the screen reader text for a cleaner look
-                    'before_page_number' => '<span class="btn btn-ghost">',
-                    'after_page_number'  => '</span>',
-                ) );
 
-            else :
-                // If no content, include the "No posts found" template.
-                get_template_part( 'template-parts/content/content-none' );
+            <aside id="secondary" class="widget-area">
+                <?php get_sidebar(); ?>
+            </aside>
 
-            endif;
-            ?>
-        </main>
-        <aside id="secondary" class="widget-area">
-            <?php get_sidebar(); ?>
-        </aside>
-
+        </div>
     </div>
 </div>
 

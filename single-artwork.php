@@ -1,8 +1,8 @@
 <?php
 /**
  * Template part for displaying a single artwork card.
- * Final Layout: Image opens lightbox, and a linked title appears below.
- * Includes a robust fallback for missing featured images.
+ * New Layout: Image opens a lightbox, and a linked title appears below.
+ * Includes a fallback for missing featured images.
  *
  * @package Art_Portfolio_Theme
  */
@@ -37,7 +37,8 @@ if ( has_post_thumbnail() ) :
 
 <?php
 else :
-    // Fallback for artworks that are missing a Featured Image.
+    // --- THIS IS THE CRITICAL FALLBACK ---
+    // If you see this on your page, it means the artwork post is missing its "Featured Image".
 ?>
 <div
     class="aspect-w-1 aspect-h-1 bg-rose-100 border-2 border-dashed border-rose-400 rounded-lg flex items-center justify-center p-4">
