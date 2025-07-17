@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Enqueue scripts and styles.
  */
-function art_portfolio_theme_enqueue_assets() {
+function andrew_hinton_enqueue_assets() {
 
     // Main stylesheet - compiled from Tailwind CSS
     wp_enqueue_style(
@@ -78,4 +78,4 @@ function art_portfolio_theme_enqueue_assets() {
     ));
 
 }
-add_action( 'wp_enqueue_scripts', 'art_portfolio_theme_enqueue_assets' );
+add_action( 'wp_enqueue_scripts', 'andrew_hinton_enqueue_assets' );

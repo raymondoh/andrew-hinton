@@ -42,6 +42,7 @@ body.overflow-hidden .site-header {
 body.overflow-hidden .site-content {
   padding-top: 0 !important;
 }
+
 /*
  * Custom Navigation Styles
  * This block contains all the fixes for spacing, list circles, and active state.
@@ -55,12 +56,12 @@ body.overflow-hidden .site-content {
 /* 2. Style the desktop navigation links */
 .desktop-nav-link {
   /* The text size has been made smaller from text-xs to text-sm */
-  @apply relative pb-1 text-xs text-base-content font-light no-underline uppercase transition-colors duration-300 ease-in-out;
+  @apply relative pb-1 text-xs text-light font-light no-underline uppercase transition-colors duration-300 ease-in-out;
 }
 
 /* 3. Create the underline using the ::after pseudo-element */
 .desktop-nav-link::after {
-  @apply content-[''] absolute bottom-0 left-0 h-[2px] w-0 bg-current transition-all duration-300 ease-in-out text-red-500;
+  @apply content-[''] absolute bottom-0 left-0 h-[2px] w-0 bg-light transition-all duration-300 ease-in-out;
 }
 
 /* 4. Animate the underline on hover */
@@ -71,4 +72,26 @@ body.overflow-hidden .site-content {
 /* 5. Style the active link to have a permanent underline */
 .menu-item.active .desktop-nav-link::after {
   @apply w-full;
+}
+/*
+ * Custom Pagination Styles
+ */
+.pagination-container .page-numbers {
+  @apply inline-block px-4 py-2 mx-1 rounded-md transition-colors duration-200;
+}
+
+.pagination-container .page-numbers.current,
+.pagination-container .page-numbers:hover {
+  @apply bg-base-300 text-base-content;
+}
+
+.pagination-container .page-numbers.dots {
+  @apply bg-transparent;
+}
+/*
+ * Custom rule to prevent page scroll when an overlay is open.
+ * This targets the <html> element to avoid conflicts with fixed headers.
+ */
+html:has(.body-no-scroll) {
+  @apply overflow-hidden;
 }

@@ -1,46 +1,48 @@
 <?php
 /**
  * Template part for displaying a single artwork card.
- * Final Layout: Image opens lightbox, and a linked title appears below.
- * Includes a robust fallback for missing featured images.
+ * Final version with a correctly placed title overlay on hover.
  *
  * @package Art_Portfolio_Theme
  */
 
-// Check if a Featured Image has been set for this artwork post.
 if ( has_post_thumbnail() ) :
 
-    $image_url_large = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+    $image_url_thumb = get_the_post_thumbnail_url( get_the_ID(), 'portfolio-thumb' );
     $image_url_full  = get_the_post_thumbnail_url( get_the_ID(), 'full' );
     $artwork_title   = get_the_title();
     $artwork_link    = get_permalink();
+
+    // The linked title for the lightbox caption
+    $caption_html = sprintf(
+        '<a href="%s" class="text-white hover:underline focus:underline">%s</a>',
+        esc_url( $artwork_link ),
+        esc_html( $artwork_title )
+    );
 ?>
 <div>
     <a href="<?php echo esc_url( $image_url_full ); ?>" data-fancybox="gallery"
-        data-caption="<?php echo esc_attr( $artwork_title ); ?>"
-        class="block rounded-lg overflow-hidden shadow-md group"
+        data-caption="<?php echo esc_attr( $caption_html ); ?>"
+        class="block relative aspect-w-1 aspect-h-1 overflow-hidden shadow-md group bg-base-200"
         aria-label="View larger image for <?php echo esc_attr( $artwork_title ); ?>">
 
-        <img src="<?php echo esc_url( $image_url_large ); ?>" alt="<?php echo esc_attr( $artwork_title ); ?>"
-            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-    </a>
+        <img src="<?php echo esc_url( $image_url_thumb ); ?>" alt="<?php echo esc_attr( $artwork_title ); ?>"
+            class="w-full h-full object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-105">
 
-    <div class="mt-4">
-        <h3 class="text-lg font-semibold text-base-content leading-tight">
-            <a href="<?php echo esc_url( $artwork_link ); ?>" class="hover:underline focus:underline">
+        <div
+            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out flex items-center justify-center p-4">
+            <h3 class="text-white text-lg font-bold text-center">
                 <?php echo esc_html( $artwork_title ); ?>
-            </a>
-        </h3>
-    </div>
-
+            </h3>
+        </div>
+    </a>
 </div>
 
 <?php
 else :
-    // Fallback for artworks that are missing a Featured Image.
 ?>
 <div
-    class="aspect-w-1 aspect-h-1 bg-rose-100 border-2 border-dashed border-rose-400 rounded-lg flex items-center justify-center p-4">
+    class="aspect-w-1 aspect-h-1 bg-rose-100 border-2 border-dashed border-rose-400 flex items-center justify-center p-4">
     <div class="text-center text-rose-800">
         <p class="font-bold text-lg">Image Missing!</p>
         <p class="text-sm">Please set a "Featured Image" for the artwork titled:</p>

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Desktop navigation walker
  */
-class Your_Theme_Name_Walker_Nav_Menu extends Walker_Nav_Menu {
+class Andrew_Hinton_Walker_Nav_Menu extends Walker_Nav_Menu {
     /**
      * Starts the element output.
      *
@@ -64,44 +64,38 @@ class Your_Theme_Name_Walker_Nav_Menu extends Walker_Nav_Menu {
 /**
  * Mobile navigation walker
  */
+/**
+ * A simple Nav Walker to output clean links for the mobile menu.
+ * This version now correctly handles the active and inactive link states.
+ */
 class Mobile_Nav_Walker extends Walker_Nav_Menu {
-    /**
-     * Starts the element output.
-     */
-    function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
-        // Add active class
-        if (in_array('current-menu-item', $classes) || in_array('current-page-ancestor', $classes)) {
-            $classes[] = 'active';
-        }
+    // This function controls how each menu item is output
+    function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+        
+        // Check if the current item is the active page
+        $is_active = in_array( 'current-menu-item', $item->classes ) || in_array( 'current_page_item', $item->classes );
 
-        $class_string = 'block px-4 py-2 text-base';
-        if (in_array('active', $classes)) {
-            $class_string .= ' bg-base-300 text-base-content';
+        // Start with the base classes for all links
+        $class_string = 'block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200';
+
+        // Conditionally add classes for active vs. inactive states
+        if ( $is_active ) {
+            $class_string .= ' bg-light text-dark'; // Active state: light bg, dark text
         } else {
-            $class_string .= ' text-base-content hover:bg-base-200';
+            $class_string .= ' text-light hover:bg-support'; // Inactive state: light text, darker bg on hover
         }
 
-        // Add the 'uppercase' class here for mobile menu
-        $class_string .= ' uppercase';
-
-        $output .= '<a href="' . esc_url($item->url) . '" class="' . esc_attr($class_string) . '">';
-        $output .= apply_filters('the_title', $item->title, $item->ID);
-        $output .= '</a>';
+        // Output the final link with the correct classes
+        $output .= sprintf(
+            '<a href="%s" class="%s">%s</a>',
+            esc_url( $item->url ),
+            esc_attr( $class_string ),
+            esc_html( $item->title )
+        );
     }
 
-    /**
-     * Do not start a new level.
-     */
-    function start_lvl( &$output, $depth = 0, $args = null ) {}
-
-    /**
-     * Do not end a level.
-     */
-    function end_lvl( &$output, $depth = 0, $args = null ) {}
-
-    /**
-     * Do not end an element.
-     */
-    function end_el( &$output, $item, $depth = 0, $args = null ) {}
+    // These functions are needed to stop WordPress from adding extra <ul> and <li> tags
+    function start_lvl( &$output, $depth = 0, $args = array() ) {}
+    function end_lvl( &$output, $depth = 0, $args = array() ) {}
+    function end_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {}
 }

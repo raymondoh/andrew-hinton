@@ -1,53 +1,78 @@
 <?php
 /**
- * Template part for displaying a single artwork card.
- * New Layout: Image opens a lightbox, and a linked title appears below.
- * Includes a fallback for missing featured images.
+ * The template for displaying a single artwork post.
+ * This version now uses conditional logic to display a unique layout for videos.
  *
  * @package Art_Portfolio_Theme
  */
 
-// Check if a Featured Image has been set for this artwork post.
-if ( has_post_thumbnail() ) :
+get_header(); ?>
 
-    $image_url_large = get_the_post_thumbnail_url( get_the_ID(), 'large' );
-    $image_url_full  = get_the_post_thumbnail_url( get_the_ID(), 'full' );
-    $artwork_title   = get_the_title();
-    $artwork_link    = get_permalink();
-?>
-<div>
-    <a href="<?php echo esc_url( $image_url_full ); ?>" data-fancybox="gallery"
-        data-caption="<?php echo esc_attr( $artwork_title ); ?>"
-        class="block rounded-lg overflow-hidden shadow-md group"
-        aria-label="View larger image for <?php echo esc_attr( $artwork_title ); ?>">
+<div class="container mx-auto px-4 py-16">
 
-        <img src="<?php echo esc_url( $image_url_large ); ?>" alt="<?php echo esc_attr( $artwork_title ); ?>"
-            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-    </a>
+    <?php while ( have_posts() ) : the_post(); ?>
 
-    <div class="mt-4">
-        <h3 class="text-lg font-semibold text-base-content leading-tight">
-            <a href="<?php echo esc_url( $artwork_link ); ?>" class="hover:underline focus:underline">
-                <?php echo esc_html( $artwork_title ); ?>
-            </a>
-        </h3>
-    </div>
+    <article id="post-<?php the_ID(); ?>" <?php post_class('max-w-6xl mx-auto'); ?>>
+
+        <?php
+            // Check if the current post is in the 'Film & Video' medium category.
+            // Be sure the slug 'film-video' matches what you have in WP Admin > Artworks > Mediums.
+            if ( has_term( 'film-video', 'medium' ) ) : 
+            ?>
+
+        <div class="video-layout max-w-xl mx-auto">
+            <?php 
+                    $artwork_year = get_field('year_created'); 
+                    if ( $artwork_year ) : 
+                    ?>
+            <p class="text-lg text-base-content/60 mb-2"><?php echo esc_html( $artwork_year ); ?></p>
+            <?php endif; ?>
+
+            <header class="entry-header mb-8">
+                <?php the_title( '<h1 class="entry-title text-4xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
+            </header>
+
+            <div class="entry-content aspect-video">
+                <?php the_content(); ?>
+            </div>
+        </div>
+
+        <?php else : ?>
+
+        <div class="static-layout flex flex-col md:flex-row md:gap-x-12 lg:gap-x-16">
+
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <?php if ( has_post_thumbnail() ) : ?>
+                <div class="shadow-lg">
+                    <?php the_post_thumbnail( 'large', array( 'class' => 'w-full h-auto' ) ); ?>
+                </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="md:w-1/2">
+                <?php 
+                        $artwork_year = get_field('year_created'); 
+                        if ( $artwork_year ) : 
+                        ?>
+                <p class="text-lg text-base-content/60 mb-2"><?php echo esc_html( $artwork_year ); ?></p>
+                <?php endif; ?>
+
+                <header class="entry-header mb-6">
+                    <?php the_title( '<h1 class="entry-title text-4xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
+                </header>
+
+                <div class="entry-content prose max-w-none text-base-content/90">
+                    <?php the_content(); ?>
+                </div>
+            </div>
+        </div>
+
+        <?php endif; // End of the has_term() check ?>
+
+    </article>
+
+    <?php endwhile; // End of the loop. ?>
 
 </div>
 
-<?php
-else :
-    // --- THIS IS THE CRITICAL FALLBACK ---
-    // If you see this on your page, it means the artwork post is missing its "Featured Image".
-?>
-<div
-    class="aspect-w-1 aspect-h-1 bg-rose-100 border-2 border-dashed border-rose-400 rounded-lg flex items-center justify-center p-4">
-    <div class="text-center text-rose-800">
-        <p class="font-bold text-lg">Image Missing!</p>
-        <p class="text-sm">Please set a "Featured Image" for the artwork titled:</p>
-        <p class="text-sm font-semibold mt-1">"<?php the_title(); ?>"</p>
-    </div>
-</div>
-<?php
-endif;
-?>
+<?php get_footer(); ?>

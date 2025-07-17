@@ -22,3 +22,16 @@ document.addEventListener("posts-loaded", () => {
   // No need to destroy the old instance, Fancybox 5 is smart enough to handle re-binding.
   initializeFancybox();
 });
+// Add this to the end of your src/js/main.js file
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mosaicVideo = document.querySelector("#featured-works video");
+
+  // A reliable way to check if it's a mobile/touch device
+  const isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  if (mosaicVideo && isMobile) {
+    // If we find the video and it's a mobile device, pause it.
+    mosaicVideo.pause();
+  }
+});
