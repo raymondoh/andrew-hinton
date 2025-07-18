@@ -6,8 +6,8 @@
  */
 ?>
 
-<footer class="footer p-10 bg-accent text-neutral-content">
-    <div class="container mx-auto text-center">
+<footer class="footer p-8 bg-accent text-neutral-content">
+    <div class="container mx-auto text-center text-sm">
         <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.
             <?php echo get_theme_mod( 'wp_boilerplate_footer_copyright', 'All rights reserved.' ); ?></p>
     </div>
