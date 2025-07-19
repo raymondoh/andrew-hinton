@@ -51,3 +51,22 @@ const hinton_portfolio_ajax_obj = <?php echo json_encode($ajax_data); ?>;
 <?php
 }
 add_action('wp_head', 'hinton_portfolio_print_ajax_object');
+
+
+/**
+ * Adds custom classes to the array of body classes.
+ *
+ * This function adds a 'has-light-background' class to pages
+ * that do not have a hero image, allowing the header text to be styled differently.
+ *
+ * @param array $classes Classes for the body element.
+ * @return array
+ */
+function art_portfolio_theme_body_classes( $classes ) {
+    // Add the class to the front page and the page using the "Artist Statement & CV" template.
+    if ( is_front_page() || is_page_template('template-artist-statement.php') ) {
+        $classes[] = 'has-light-background';
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'art_portfolio_theme_body_classes' );

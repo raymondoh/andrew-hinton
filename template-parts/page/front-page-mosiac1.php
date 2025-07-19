@@ -1,15 +1,14 @@
 <?php
 /**
  * Front Page Mosaic Template
- * This final version removes the text overlay from the Instagram tile
- * for a cleaner, more minimalist design.
+ * This final version links each tile to the correct /portfolio/ page with a pre-selected filter.
  *
  * @package Art_Portfolio_Theme
  */
 
 // Build items array from ACF fields
 $items = [];
-// This is the URL of your main portfolio page.
+// THIS IS THE FIX: We now explicitly use the URL of your portfolio page.
 $portfolio_page_url = home_url('/portfolio/'); 
 
 // Helper to add image items. Now fetches the category filter link.
@@ -21,6 +20,7 @@ function add_image_item( $post_object, $portfolio_url ) {
 
         if ( !empty($terms) && !is_wp_error($terms) ) {
             $caption_text = $terms[0]->name;
+            // Create a link like /portfolio/?filter=sculpture-3d
             $filter_link = add_query_arg('filter', $terms[0]->slug, $portfolio_url);
         }
         
@@ -40,40 +40,24 @@ if ($item = add_image_item(get_field('featured_sculpture_artwork'), $portfolio_p
 if ($item = add_image_item(get_field('featured_collage_artwork'), $portfolio_page_url)) $items[] = $item;
 if ($item = add_image_item(get_field('featured_cyanotype_artwork'), $portfolio_page_url)) $items[] = $item;
 
-// Add Video - now includes a caption
+// Add Video - also linking to its category filter
 $video_post = get_field('featured_video_artwork');
 if ( $video_post ) {
     $video_field = get_field('featured_video_background_clip');
     $terms = get_the_terms( $video_post->ID, 'medium' );
-    
-    $video_caption = 'Video'; // Default caption
-    $filter_link = $portfolio_page_url; // Default link
-
-    if ( !empty($terms) && !is_wp_error($terms) ) {
-        $video_caption = $terms[0]->name;
-        $filter_link = add_query_arg('filter', $terms[0]->slug, $portfolio_page_url);
-    }
+    $filter_link = ( !empty($terms) && !is_wp_error($terms) ) ? add_query_arg('filter', $terms[0]->slug, $portfolio_page_url) : $portfolio_page_url;
 
     if ( $video_field ) {
-        $items[] = [ 
-            'type'    => 'video', 
-            'url'     => $video_field['url'], 
-            'link'    => $filter_link,
-            'caption' => $video_caption 
-        ];
+        $items[] = [ 'type' => 'video', 'url' => $video_field['url'], 'link' => $filter_link ];
     }
 }
 
-
-// Add Instagram Block
-$instagram_profile_url = 'https://www.instagram.com/raymondoh13/'; 
-$instagram_container_page_url = 'https://andrew-hinton-portfolio.local:8890/instagram-feed-container/';
-
-$items[] = [ 
-    'type'        => 'instagram', 
-    'iframe_url'  => $instagram_container_page_url,
-    'profile_url' => $instagram_profile_url,
-];
+// Add Quote/CTA block
+$cta_link = get_field('portfolio_cta_link');
+if ( $cta_link ) {
+    $quote = get_field('quote_text');
+    $items[] = [ 'type' => 'quote', 'text' => $quote, 'link' => $cta_link ];
+}
 ?>
 
 <section id="featured-works" class="container mx-auto px-2 mt-4 md:mt-6">
@@ -96,33 +80,21 @@ $items[] = [
                         <h3 class="text-white text-lg font-bold"><?php echo esc_html($item['caption']); ?></h3>
                     </div>
                 </a>
-
-                <?php 
-                elseif ( $item['type'] === 'video' ) : 
-                ?>
+                <?php elseif ( $item['type'] === 'video' ) : ?>
                 <a href="<?php echo esc_url($item['link']); ?>" class="block w-full h-full"
-                    aria-label="View all <?php echo esc_attr($item['caption']); ?> works">
+                    aria-label="View all Film & Video works">
                     <video src="<?php echo esc_url($item['url']); ?>" class="object-cover w-full h-full" autoplay muted
                         loop playsinline></video>
-
-                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/70 to-transparent">
-                        <h3 class="text-white text-lg font-bold"><?php echo esc_html($item['caption']); ?></h3>
-                    </div>
                 </a>
-
-                <?php 
-                elseif ( $item['type'] === 'instagram' ) : 
-                ?>
-                <a href="<?php echo esc_url($item['profile_url']); ?>" target="_blank" rel="noopener noreferrer"
-                    class="block w-full h-full" aria-label="View on Instagram">
-                    <iframe src="<?php echo esc_url($item['iframe_url']); ?>" class="w-full h-full border-0"
-                        scrolling="no" title="Instagram Feed"></iframe>
+                <?php elseif ( $item['type'] === 'quote' ) : ?>
+                <a href="<?php echo esc_url($item['link']); ?>"
+                    class="block w-full h-full bg-[#1B3052] text-gray-100 p-8 flex flex-col justify-center text-center">
+                    <blockquote class="prose prose-xl italic text-gray-100">
+                        <?php if ($item['text']) echo esc_html( $item['text'] ); ?>
+                    </blockquote>
+                    <span class="mt-4 inline-block font-semibold">View Full Portfolio &rarr;</span>
                 </a>
-
-                <!-- The text overlay has been removed -->
-                <?php 
-                endif; 
-                ?>
+                <?php endif; ?>
             </div>
             <?php endforeach; ?>
         </div>

@@ -1,7 +1,9 @@
 <?php
 /**
  * Final Portfolio Grid Component
- * This definitive version has the correct spacing between the hero and the grid.
+ * This definitive version places the quote in the hero and moves the filters
+ * to the top-right of the grid for a cleaner, more professional layout.
+ * It also ensures the quote text is light and readable.
  *
  * @package Art_Portfolio_Theme
  */
@@ -50,21 +52,39 @@ $page_id = get_queried_object_id();
     }" x-init="if (activeFilter !== 'all') { loadPosts(true); }">
 
     <?php if ( has_post_thumbnail($page_id) ) : ?>
-    <div class="relative bg-base-300 h-[30vh] min-h-[250px]">
+    <!-- The Hero section now ONLY contains the quote -->
+    <div class="relative bg-base-300 h-[30vh] min-h-[300px]">
         <div class="absolute inset-0">
             <?php echo get_the_post_thumbnail($page_id, 'full', array('class' => 'w-full h-full object-cover')); ?>
         </div>
-        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute inset-0 bg-black/60"></div>
 
-        <div class="relative h-full flex items-center justify-center">
-            <?php 
-                get_template_part('template-parts/components/portfolio-filters', null, ['mediums' => $mediums]); 
-                ?>
+        <div class="relative h-full flex flex-col items-center justify-center text-center p-4">
+            <?php
+            $quote = get_field('quote_text', $page_id);
+            if ( $quote ) :
+            ?>
+            <!-- MODIFICATION: Replaced 'prose-invert' with a direct text color class -->
+            <blockquote class="prose prose-xl lg:prose-2xl italic max-w-3xl mx-auto text-white/90">
+                <?php echo esc_html( $quote ); ?>
+            </blockquote>
+            <?php
+            endif;
+            ?>
         </div>
     </div>
     <?php endif; ?>
 
     <div class="container mx-auto px-4 mt-4 md:mt-6 lg:mt-12">
+
+        <!-- New container for the filters -->
+        <div class="controls-container flex justify-end mb-8">
+            <?php 
+                // The filters are now here, outside the hero and aligned to the right.
+                get_template_part('template-parts/components/portfolio-filters', null, ['mediums' => $mediums]); 
+            ?>
+        </div>
+
         <div id="portfolio-grid-container" x-ref="gridContainer"
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[500px]">
 
@@ -77,6 +97,7 @@ $page_id = get_queried_object_id();
         </div>
 
         <div class="load-more-container text-center mt-12 mb-12">
+            <!-- This button's classes are unchanged and should be correct -->
             <button x-show="!loading && page < maxPages" @click="loadMore()" class="btn btn-primary btn-wide">
                 <span>Load More</span>
             </button>

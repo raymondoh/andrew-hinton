@@ -12,80 +12,76 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 /**
- * Desktop navigation walker
+ * Custom Nav Walker for the Desktop Menu
+ *
+ * This class applies dynamic Tailwind CSS and Alpine.js classes to the desktop menu items,
+ * allowing them to change color on scroll and indicating the active page with a styled underline.
  */
 class Andrew_Hinton_Walker_Nav_Menu extends Walker_Nav_Menu {
-    /**
-     * Starts the element output.
-     *
-     * @param string $output            Used to append additional content (passed by reference).
-     * @param WP_Post $item             Menu item data object.
-     * @param int $depth                Depth of menu item. Used for padding.
-     * @param stdClass $args            An object of wp_nav_menu() arguments.
-     * @param int $id                   Current item ID.
-     */
-    function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-        $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-
-        $li_attributes = '';
-        $class_names = $value = '';
-
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
-        
-        // This is where we add the 'active' class for DaisyUI compatibility.
-        // This relies on the filter you previously added to functions.php
-        if (in_array('current-menu-item', $classes) || in_array('current-page-ancestor', $classes)) {
-            $classes[] = 'active';
-        }
-
-        $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
-        $class_names = ' class="' . esc_attr( $class_names ) . ' menu-item"';
-
-        $output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names . $li_attributes . '>';
-
-        $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-        $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-        $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-        $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
-
-        // All styling is now handled by this single, clean class for the hover underline effect.
-        $attributes .= ' class="desktop-nav-link"'; 
-
-        $item_output = $args->before;
-        $item_output .= '<a'. $attributes .'>';
-        $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-        $item_output .= '</a>';
-        $item_output .= $args->after;
-
-        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-    }
-}
-/**
- * Mobile navigation walker
- */
-/**
- * A simple Nav Walker to output clean links for the mobile menu.
- * This version now correctly handles the active and inactive link states.
- */
-class Mobile_Nav_Walker extends Walker_Nav_Menu {
-    // This function controls how each menu item is output
     function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
         
-        // Check if the current item is the active page
         $is_active = in_array( 'current-menu-item', $item->classes ) || in_array( 'current_page_item', $item->classes );
-
-        // Start with the base classes for all links
-        $class_string = 'block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200';
-
-        // Conditionally add classes for active vs. inactive states
+        
+        $static_classes = 'font-medium transition-all duration-300';
+        
+        // Conditionally add classes for the active/inactive state.
         if ( $is_active ) {
-            $class_string .= ' bg-light text-dark'; // Active state: light bg, dark text
+            // THE FIX: Added underline-offset-4 to push the line down.
+            $static_classes .= ' underline underline-offset-4'; 
         } else {
-            $class_string .= ' text-light hover:bg-support'; // Inactive state: light text, darker bg on hover
+            // Inactive links get 'no-underline' and are faded.
+            $static_classes .= ' no-underline opacity-75 hover:opacity-100'; 
         }
 
-        // Output the final link with the correct classes
+        // Determine the dynamic color classes.
+        $dynamic_classes_string = '';
+        if ( in_array('has-light-background', get_body_class()) ) {
+            // On light pages: start dark, turn light on scroll.
+            $dynamic_classes_string = ":class=\"{ 'text-dark': atTop, 'text-light': !atTop }\"";
+        } else {
+            // On dark/hero pages: always stay light.
+            $static_classes .= ' text-light';
+        }
+
+        // Print the final link with separate static and dynamic class attributes.
+        $output .= sprintf(
+            '<a href="%s" class="%s" %s>%s</a>',
+            esc_url( $item->url ),
+            esc_attr($static_classes),
+            $dynamic_classes_string, // This contains the :class="..." directive
+            esc_html( $item->title )
+        );
+    }
+
+    function start_lvl( &$output, $depth = 0, $args = array() ) {}
+    function end_lvl( &$output, $depth = 0, $args = array() ) {}
+    function end_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {}
+}
+
+
+
+/**
+ * Custom Nav Walker for the Mobile Menu
+ *
+ * This class applies custom Tailwind CSS classes to the mobile menu items,
+ * restoring the active/inactive states and adding vertical spacing.
+ */
+class Mobile_Nav_Walker extends Walker_Nav_Menu {
+    function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+        
+        $is_active = in_array( 'current-menu-item', $item->classes ) || in_array( 'current_page_item', $item->classes );
+
+        // Add a bottom margin to each link for spacing
+        $class_string = 'block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200 mb-2';
+
+        if ( $is_active ) {
+            $class_string .= ' bg-light text-dark'; // Active state
+        } else {
+            $class_string .= ' text-light hover:bg-support'; // Inactive state
+        }
+
         $output .= sprintf(
             '<a href="%s" class="%s">%s</a>',
             esc_url( $item->url ),
@@ -94,7 +90,6 @@ class Mobile_Nav_Walker extends Walker_Nav_Menu {
         );
     }
 
-    // These functions are needed to stop WordPress from adding extra <ul> and <li> tags
     function start_lvl( &$output, $depth = 0, $args = array() ) {}
     function end_lvl( &$output, $depth = 0, $args = array() ) {}
     function end_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {}
