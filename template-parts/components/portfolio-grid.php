@@ -1,7 +1,7 @@
 <?php
 /**
  * Final Portfolio Grid Component
- * This is the definitive, clean version using a pure AJAX-driven approach.
+ * This definitive version has the correct spacing between the hero and the grid.
  *
  * @package Art_Portfolio_Theme
  */
@@ -26,15 +26,13 @@ $page_id = get_queried_object_id();
             formData.append('action', 'filter_and_load_artworks');
             formData.append('page', this.page);
             formData.append('medium', this.activeFilter);
-            // We now get the nonce from the localized script object
             formData.append('security', hinton_portfolio_ajax_obj.nonce);
-
-            const grid = this.$refs.gridContainer;
 
             fetch(hinton_portfolio_ajax_obj.ajax_url, { method: 'POST', body: formData })
             .then(response => response.json())
             .then(response => {
                 if(response.success) {
+                    const grid = this.$refs.gridContainer;
                     if (replace) { grid.innerHTML = ''; }
                     grid.insertAdjacentHTML('beforeend', response.data.html);
                     this.maxPages = response.data.maxPages;
@@ -49,15 +47,16 @@ $page_id = get_queried_object_id();
         
         filter(mediumSlug) { this.activeFilter = mediumSlug; this.page = 1; this.loadPosts(true); },
         loadMore() { if (this.page < this.maxPages) { this.page++; this.loadPosts(false); } }
-    }" x-init="loadPosts(true)">
+    }" x-init="if (activeFilter !== 'all') { loadPosts(true); }">
 
     <?php if ( has_post_thumbnail($page_id) ) : ?>
-    <div class="relative bg-base-300">
+    <div class="relative bg-base-300 h-[30vh] min-h-[250px]">
         <div class="absolute inset-0">
             <?php echo get_the_post_thumbnail($page_id, 'full', array('class' => 'w-full h-full object-cover')); ?>
         </div>
         <div class="absolute inset-0 bg-black/50"></div>
-        <div class="relative container mx-auto px-4 py-24 md:py-32">
+
+        <div class="relative h-full flex items-center justify-center">
             <?php 
                 get_template_part('template-parts/components/portfolio-filters', null, ['mediums' => $mediums]); 
                 ?>
@@ -65,12 +64,19 @@ $page_id = get_queried_object_id();
     </div>
     <?php endif; ?>
 
-    <div class="container mx-auto px-4 mt-16">
-        <div id="portfolio-grid-container" x-ref="gridContainer" class.grid-cols-1 sm:grid-cols-2 md:grid-cols-3
-            lg:grid-cols-4 gap-4 min-h-[500px]">
+    <div class="container mx-auto px-4 mt-4 md:mt-6 lg:mt-12">
+        <div id="portfolio-grid-container" x-ref="gridContainer"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[500px]">
+
+            <?php
+            // The initial grid of posts
+            while ( $initial_query->have_posts() ) : $initial_query->the_post();
+                get_template_part('template-parts/content/content-artwork-card');
+            endwhile; 
+            ?>
         </div>
 
-        <div class="load-more-container text-center mt-12">
+        <div class="load-more-container text-center mt-12 mb-12">
             <button x-show="!loading && page < maxPages" @click="loadMore()" class="btn btn-primary btn-wide">
                 <span>Load More</span>
             </button>

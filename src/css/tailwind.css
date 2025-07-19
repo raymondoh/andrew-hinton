@@ -95,3 +95,29 @@ body.overflow-hidden .site-content {
 html:has(.body-no-scroll) {
   @apply overflow-hidden;
 }
+/*
+ * Final, Polished Styles for WPForms
+ */
+.contact-form .wpforms-field-label {
+  @apply text-base font-semibold mb-2 block;
+}
+
+.contact-form .wpforms-field input[type="text"],
+.contact-form .wpforms-field input[type="email"],
+.contact-form .wpforms-field textarea {
+  @apply input input-bordered w-full bg-base-100 !rounded-md !important;
+}
+
+/*
+ * THIS IS THE NEW RULE:
+ * Targets the specific name and email fields to make them longer.
+ * Replace '123' with your form ID.
+*/
+.contact-form #wpforms-71-field_1-container,
+.contact-form #wpforms-71-field_2-container {
+  @apply sm:col-span-2;
+}
+
+.contact-form .wpforms-submit {
+  @apply btn btn-primary btn-sm mt-4 !important;
+}

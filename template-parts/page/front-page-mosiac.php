@@ -60,8 +60,8 @@ if ( $cta_link ) {
 }
 ?>
 
-<section id="featured-works" class="pt-4 pb-16 md:py-24">
-    <div class="container mx-auto px-4">
+<section id="featured-works" class="container mx-auto px-2 mt-4 md:mt-6">
+    <div class="container mx-auto px-2">
         <div class="grid grid-cols-2 md:grid-cols-3 auto-rows-[65vw] md:auto-rows-fr gap-4">
             <?php foreach ( $items as $index => $item ) :
                 $span_class = ($index === 0) ? 'col-span-2 md:row-span-2' : '';

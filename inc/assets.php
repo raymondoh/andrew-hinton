@@ -28,11 +28,26 @@ function art_portfolio_theme_enqueue_assets() {
     // Enqueue our theme's main JavaScript file
     wp_enqueue_script( 'main-js', get_template_directory_uri() . '/assets/js/main.js', array('fancybox-js', 'alpine-js'), filemtime( get_template_directory() . '/assets/js/main.js' ), true );
 
-    // This is the crucial part: Localize the script, attaching our data directly to 'main-js'.
-    wp_localize_script('main-js', 'hinton_portfolio_ajax_obj', array(
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('load_more_posts'),
-    ));
+    // THE wp_localize_script CALL HAS BEEN REMOVED FROM HERE TO PREVENT CONFLICTS
 
 }
 add_action( 'wp_enqueue_scripts', 'art_portfolio_theme_enqueue_assets' );
+
+
+/**
+ * --- THIS IS THE DEFINITIVE FIX ---
+ * Prints the AJAX data object directly into the HTML <head>.
+ * This makes it globally available before any other scripts run, eliminating race conditions.
+ */
+function hinton_portfolio_print_ajax_object() {
+    $ajax_data = array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce'    => wp_create_nonce('load_more_posts'),
+    );
+    ?>
+<script>
+const hinton_portfolio_ajax_obj = <?php echo json_encode($ajax_data); ?>;
+</script>
+<?php
+}
+add_action('wp_head', 'hinton_portfolio_print_ajax_object');
