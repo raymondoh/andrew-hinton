@@ -1,8 +1,7 @@
 <?php
 /**
  * Front Page Mosaic Template
- * This version provides a responsive video tile that links on desktop
- * and plays inline on mobile.
+ * This version re-orders the grid to place the video in the 4th position.
  *
  * @package Art_Portfolio_Theme
  */
@@ -34,13 +33,14 @@ function add_image_item( $post_object, $portfolio_url ) {
     return false;
 }
 
+// --- MODIFICATION: The order of items is changed here ---
+
 // Add items from ACF
 if ($item = add_image_item(get_field('featured_painting_artwork'), $portfolio_page_url)) $items[] = $item;
 if ($item = add_image_item(get_field('featured_sculpture_artwork'), $portfolio_page_url)) $items[] = $item;
 if ($item = add_image_item(get_field('featured_collage_artwork'), $portfolio_page_url)) $items[] = $item;
-if ($item = add_image_item(get_field('featured_cyanotype_artwork'), $portfolio_page_url)) $items[] = $item;
 
-// Add Video - now includes a caption
+// Add Video (Now in the 4th position)
 $video_post = get_field('featured_video_artwork');
 if ( $video_post ) {
     $video_field = get_field('featured_video_background_clip');
@@ -64,6 +64,9 @@ if ( $video_post ) {
     }
 }
 
+// Add Cyanotype (Now in the 5th position)
+if ($item = add_image_item(get_field('featured_cyanotype_artwork'), $portfolio_page_url)) $items[] = $item;
+
 
 // Add Instagram Block
 $instagram_profile_url = 'https://www.instagram.com/raymondoh13/'; 
@@ -74,6 +77,7 @@ $items[] = [
     'iframe_url'  => $instagram_container_page_url,
     'profile_url' => $instagram_profile_url,
 ];
+// --- END MODIFICATION ---
 ?>
 
 <section id="featured-works" class="container mx-auto px-2 mt-4 md:mt-6">
@@ -98,7 +102,6 @@ $items[] = [
                 </a>
 
                 <?php 
-                // --- THE FIX ---
                 elseif ( $item['type'] === 'video' ) : 
                 ?>
                 <!-- Desktop-only version: A link to the category page -->

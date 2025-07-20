@@ -1,0 +1,18 @@
+/*
+Theme Name: Andrew Hinton Portfolio
+Theme URI: https://your-website-url.com/
+Author: Your Name
+Author URI: https://your-website-url.com/
+Description: A custom, multimedia portfolio theme designed for the artist Andrew Hinton. It features a responsive mosaic grid, a two-column statement/CV page, and dedicated sections for film and sound work.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: portfolio, art, multimedia, responsive, minimalist
+Text Domain: art-portfolio-theme
+*/
+
+/* This file is primarily for theme information. 
+    All functional styles for this theme are handled by Tailwind CSS,
+    which is compiled into the main stylesheet loaded via functions.php.
+    You can add any custom, non-utility CSS overrides below if necessary.
+*/

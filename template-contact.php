@@ -1,12 +1,26 @@
 <?php
 /**
  * Template Name: Contact Page
- * This version now includes a full-width hero section for visual consistency.
+ * This definitive version pulls all contact details dynamically and removes link underlines for a cleaner look.
  *
  * @package Art_Portfolio_Theme
  */
 
-get_header(); ?>
+get_header(); 
+
+// --- Get Contact Details ---
+$settings_page = get_page_by_path('site-settings');
+$email = '';
+$instagram_url = '';
+$youtube_url = '';
+
+if ( $settings_page ) {
+    $settings_page_id = $settings_page->ID;
+    $email = get_field('contact_email', $settings_page_id);
+    $instagram_url = get_field('instagram_profile_url', $settings_page_id);
+    $youtube_url = get_field('youtube_channel_url', $settings_page_id);
+}
+?>
 
 <div class="contact-page-content">
 
@@ -41,22 +55,39 @@ get_header(); ?>
                     </div>
                 </div>
 
+                <?php if ( $email ) : ?>
                 <div class="bg-base-300 p-8">
                     <h3 class="text-xl font-serif font-bold mb-2">Email</h3>
-                    <a href="mailto:andrew@example.com" class="link link-primary">andrew@example.com</a>
+                    <!-- MODIFICATION: Added no-underline and hover:underline -->
+                    <a href="mailto:<?php echo esc_attr($email); ?>"
+                        class="link link-primary no-underline hover:underline break-all"><?php echo esc_html($email); ?></a>
                 </div>
+                <?php endif; ?>
 
+                <?php if ( $instagram_url ) : ?>
                 <div class="bg-base-300 p-8">
                     <h3 class="text-xl font-serif font-bold mb-2">Instagram</h3>
-                    <a href="https://www.instagram.com/andrewse8/" target="_blank" rel="noopener noreferrer"
-                        class="link link-primary">@andrewse8</a>
+                    <!-- MODIFICATION: Added no-underline and hover:underline -->
+                    <a href="<?php echo esc_url($instagram_url); ?>" target="_blank" rel="noopener noreferrer"
+                        class="link link-primary no-underline hover:underline">Follow on Instagram</a>
                 </div>
+                <?php endif; ?>
+
+                <?php if ( $youtube_url ) : ?>
+                <div class="bg-base-300 p-8 sm:col-span-2">
+                    <h3 class="text-xl font-serif font-bold mb-2">YouTube</h3>
+                    <!-- MODIFICATION: Added no-underline and hover:underline -->
+                    <a href="<?php echo esc_url($youtube_url); ?>" target="_blank" rel="noopener noreferrer"
+                        class="link link-primary no-underline hover:underline">View on YouTube</a>
+                </div>
+                <?php endif; ?>
 
             </div>
 
             <div class="contact-form bg-base-300 p-8">
                 <h2 class="text-2xl font-serif font-bold mb-4">Send a Message</h2>
                 <?php 
+                // This assumes your WPForms shortcode is correct.
                 echo do_shortcode('[wpforms id="71"]'); 
                 ?>
             </div>

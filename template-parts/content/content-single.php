@@ -6,7 +6,7 @@
  */
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('bg-base-100 shadow-lg rounded-lg overflow-hidden'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('bg-base-100 shadow-lg overflow-hidden'); ?>>
 
     <?php if ( has_post_thumbnail() ) : ?>
     <figure class="aspect-video">
@@ -30,7 +30,7 @@
             the_content();
 
             wp_link_pages( array(
-                'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'wp-boilerplate' ),
+                'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'andrew_hinton_portfolio_theme' ),
                 'after'  => '</div>',
             ) );
             ?>

@@ -78,7 +78,7 @@ $page_id = get_queried_object_id();
     <div class="container mx-auto px-4 mt-4 md:mt-6 lg:mt-12">
 
         <!-- New container for the filters -->
-        <div class="controls-container flex justify-end mb-8">
+        <div class="controls-container flex justify-end mt-8 mb-8">
             <?php 
                 // The filters are now here, outside the hero and aligned to the right.
                 get_template_part('template-parts/components/portfolio-filters', null, ['mediums' => $mediums]); 

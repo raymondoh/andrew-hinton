@@ -10,9 +10,9 @@ $mediums = $args['mediums'] ?? [];
 ?>
 
 <?php if ( ! is_wp_error( $mediums ) && ! empty( $mediums ) ) : ?>
-<div class="filter-dropdown-container relative max-w-xs mx-auto">
+<div class="filter-dropdown-container relative max-w-xs ">
 
-    <select class="select select-bordered w-full appearance-none bg-none" x-model="activeFilter"
+    <select class="select select-primary select-bordered  appearance-none bg-none select-md" x-model="activeFilter"
         @change="filter($event.target.value)">
 
         <option value="all">All Work</option>

@@ -1,6 +1,7 @@
 <?php
 /**
  * The template for displaying all single posts (e.g., a single Journal entry).
+ * This version adds vertical padding for a consistent layout.
  *
  * @package Art_Portfolio_Theme
  */
@@ -8,7 +9,8 @@
 get_header();
 ?>
 
-<div class="container mx-auto px-4">
+<!-- MODIFICATION: Added vertical padding (py-16) to the main container -->
+<div class="container mx-auto px-4 py-16">
     <div class="fade-in-element" x-data="{ inView: false }" x-intersect:enter="inView = true"
         :class="{ 'is-visible': inView }">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -23,9 +25,9 @@ get_header();
                     get_template_part( 'template-parts/content/content-single' );
 
                     // If comments are open, load the comment template.
-                    if ( comments_open() || get_comments_number() ) :
-                        comments_template();
-                    endif;
+                    // if ( comments_open() || get_comments_number() ) :
+                    //     comments_template();
+                    // endif;
 
                 endwhile; // End of the loop.
                 ?>

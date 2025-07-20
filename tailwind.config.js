@@ -59,10 +59,10 @@ module.exports = {
       {
         nord: {
           // Import all the default nord theme colors and variables
-          ...require("daisyui/src/theming/themes")["nord"],
+          ...require("daisyui/src/theming/themes")["nord"]
 
           // Override button radius
-          "--rounded-btn": "9999px"
+          // "--rounded-btn": "9999px"
         }
       }
     ]

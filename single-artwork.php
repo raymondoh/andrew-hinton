@@ -46,7 +46,7 @@ get_header(); ?>
             </div>
 
             <!-- Video Player -->
-            <div class="entry-content aspect-video bg-black rounded-lg overflow-hidden shadow-lg mb-8">
+            <div class="entry-content aspect-video bg-black overflow-hidden shadow-lg mb-8">
                 <?php the_content(); // This is where the YouTube/Vimeo embed code goes ?>
             </div>
 

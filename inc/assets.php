@@ -61,9 +61,19 @@ add_action('wp_head', 'hinton_portfolio_print_ajax_object');
  * @param array $classes Classes for the body element.
  * @return array
  */
+
+/**
+ * Adds custom classes to the array of body classes.
+ *
+ * This function adds a 'has-light-background' class to pages
+ * that do not have a hero image, allowing the header text to be styled differently.
+ *
+ * @param array $classes Classes for the body element.
+ * @return array
+ */
 function art_portfolio_theme_body_classes( $classes ) {
-    // Add the class to the front page, statement page, single artworks, and the main blog page.
-    if ( is_front_page() || is_page_template('template-artist-statement.php') || is_singular('artwork') || is_home() ) {
+    // Add the class to the front page, statement page, single artworks, blog page, and single blog posts.
+    if ( is_front_page() || is_page_template('template-artist-statement.php') || is_singular('artwork') || is_home() || is_single() ) {
         $classes[] = 'has-light-background';
     }
     return $classes;
