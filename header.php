@@ -107,11 +107,11 @@
     </div><!-- End Alpine Component -->
 
     <?php
-    // --- THE FIX ---
     // Determine if we need padding for the header based on the body class.
     $main_classes = 'site-main flex-grow';
     if ( in_array('has-light-background', get_body_class()) ) {
-        $main_classes .= ' pt-32'; // Add padding only on pages without a hero.
+        // MODIFICATION: Reduced padding from pt-32 to pt-24
+        $main_classes .= ' pt-2'; 
     }
     ?>
     <main id="main" class="<?php echo esc_attr($main_classes); ?>">

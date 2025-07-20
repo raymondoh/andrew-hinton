@@ -1,8 +1,8 @@
 <?php
 /**
  * Front Page Mosaic Template
- * This final version removes the text overlay from the Instagram tile
- * for a cleaner, more minimalist design.
+ * This version provides a responsive video tile that links on desktop
+ * and plays inline on mobile.
  *
  * @package Art_Portfolio_Theme
  */
@@ -98,18 +98,28 @@ $items[] = [
                 </a>
 
                 <?php 
+                // --- THE FIX ---
                 elseif ( $item['type'] === 'video' ) : 
                 ?>
-                <a href="<?php echo esc_url($item['link']); ?>" class="block w-full h-full"
+                <!-- Desktop-only version: A link to the category page -->
+                <a href="<?php echo esc_url($item['link']); ?>" class="hidden md:block w-full h-full"
                     aria-label="View all <?php echo esc_attr($item['caption']); ?> works">
                     <video src="<?php echo esc_url($item['url']); ?>" class="object-cover w-full h-full" autoplay muted
                         loop playsinline></video>
-
                     <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/70 to-transparent">
                         <h3 class="text-white text-lg font-bold"><?php echo esc_html($item['caption']); ?></h3>
                     </div>
                 </a>
 
+                <!-- Mobile-only version: Just the video, no link -->
+                <div class="block md:hidden w-full h-full">
+                    <video src="<?php echo esc_url($item['url']); ?>" class="object-cover w-full h-full" autoplay muted
+                        loop playsinline></video>
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/70 to-transparent pointer-events-none">
+                        <h3 class="text-white text-lg font-bold"><?php echo esc_html($item['caption']); ?></h3>
+                    </div>
+                </div>
                 <?php 
                 elseif ( $item['type'] === 'instagram' ) : 
                 ?>
@@ -118,8 +128,6 @@ $items[] = [
                     <iframe src="<?php echo esc_url($item['iframe_url']); ?>" class="w-full h-full border-0"
                         scrolling="no" title="Instagram Feed"></iframe>
                 </a>
-
-                <!-- The text overlay has been removed -->
                 <?php 
                 endif; 
                 ?>
