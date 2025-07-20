@@ -1,7 +1,7 @@
 <?php
 /**
  * Template part for displaying a single artwork card.
- * Final version with a correctly placed title overlay on hover.
+ * This version adds a "View Details" link to the lightbox caption.
  *
  * @package Art_Portfolio_Theme
  */
@@ -13,11 +13,12 @@ if ( has_post_thumbnail() ) :
     $artwork_title   = get_the_title();
     $artwork_link    = get_permalink();
 
-    // The linked title for the lightbox caption
+    // --- THE MODIFICATION ---
+    // Create a new, more descriptive HTML structure for the lightbox caption.
     $caption_html = sprintf(
-        '<a href="%s" class="text-white hover:underline focus:underline">%s</a>',
-        esc_url( $artwork_link ),
-        esc_html( $artwork_title )
+        '<span class="text-lg font-bold text-white">%s</span><a href="%s" class="block text-sm text-white/80 hover:text-white mt-2 transition-colors">View Project Details &rarr;</a>',
+        esc_html( $artwork_title ),
+        esc_url( $artwork_link )
     );
 ?>
 <div>

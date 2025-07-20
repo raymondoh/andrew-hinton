@@ -17,9 +17,8 @@ define('WP_BOILERPLATE_URI', trailingslashit(get_template_directory_uri()));
 
 // Include core files
 require_once WP_BOILERPLATE_DIR . 'inc/setup.php';
-require_once WP_BOILERPLATE_DIR . 'inc/assets.php'; // We are keeping this one!
+require_once WP_BOILERPLATE_DIR . 'inc/assets.php'; 
 require_once WP_BOILERPLATE_DIR . 'inc/template-functions.php';
-require_once WP_BOILERPLATE_DIR . 'inc/template-hooks.php';
 require_once WP_BOILERPLATE_DIR . 'inc/customizer.php';
 require_once WP_BOILERPLATE_DIR . 'inc/class-nav-walker.php';
 

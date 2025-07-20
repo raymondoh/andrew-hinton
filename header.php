@@ -7,7 +7,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class('flex flex-col min-h-screen'); ?>>
     <?php wp_body_open(); ?>
 
     <div x-data="{ open: false, atTop: true }" @scroll.window="atTop = (window.scrollY < 10)"
@@ -106,4 +106,12 @@
         </div>
     </div><!-- End Alpine Component -->
 
-    <main id="main" class="site-main">
+    <?php
+    // --- THE FIX ---
+    // Determine if we need padding for the header based on the body class.
+    $main_classes = 'site-main flex-grow';
+    if ( in_array('has-light-background', get_body_class()) ) {
+        $main_classes .= ' pt-32'; // Add padding only on pages without a hero.
+    }
+    ?>
+    <main id="main" class="<?php echo esc_attr($main_classes); ?>">

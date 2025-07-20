@@ -1,7 +1,7 @@
 <?php
 /**
  * The template for displaying a single artwork post.
- * This version now uses conditional logic to display a unique layout for videos.
+ * This definitive version provides a consistent, detailed layout for all media types.
  *
  * @package Art_Portfolio_Theme
  */
@@ -16,53 +16,99 @@ get_header(); ?>
 
         <?php
             // Check if the current post is in the 'Film & Video' medium category.
-            // Be sure the slug 'film-video' matches what you have in WP Admin > Artworks > Mediums.
             if ( has_term( 'film-video', 'medium' ) ) : 
             ?>
 
-        <div class="video-layout max-w-xl mx-auto">
-            <?php 
-                    $artwork_year = get_field('year_created'); 
-                    if ( $artwork_year ) : 
-                    ?>
-            <p class="text-lg text-base-content/60 mb-2"><?php echo esc_html( $artwork_year ); ?></p>
-            <?php endif; ?>
-
-            <header class="entry-header mb-8">
-                <?php the_title( '<h1 class="entry-title text-4xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
+        <!-- Layout for Film & Video -->
+        <div class="video-layout max-w-3xl mx-auto">
+            <header class="entry-header mb-4">
+                <?php the_title( '<h1 class="entry-title text-4xl lg:text-5xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
             </header>
 
-            <div class="entry-content aspect-video">
-                <?php the_content(); ?>
+            <!-- Meta Details: Year and Dimensions -->
+            <div class="artwork-meta text-lg text-base-content/60 mb-8">
+                <?php 
+                $artwork_year = get_field('artwork_year');
+                if ( $artwork_year ) :
+                ?>
+                <span><?php echo esc_html( $artwork_year ); ?></span>
+                <?php endif; ?>
+
+                <?php
+                $artwork_dimensions = get_field('artwork_dimensions');
+                if ( $artwork_year && $artwork_dimensions ) {
+                    echo '<span class="mx-2">&middot;</span>'; // Separator
+                }
+                if ( $artwork_dimensions ) :
+                ?>
+                <span><?php echo esc_html( $artwork_dimensions ); ?></span>
+                <?php endif; ?>
+            </div>
+
+            <!-- Video Player -->
+            <div class="entry-content aspect-video bg-black rounded-lg overflow-hidden shadow-lg mb-8">
+                <?php the_content(); // This is where the YouTube/Vimeo embed code goes ?>
+            </div>
+
+            <!-- Artwork Description -->
+            <div class="entry-description prose max-w-none text-base-content/90">
+                <?php
+                $artwork_description = get_field('artwork_description');
+                if ( $artwork_description ) {
+                    echo wp_kses_post( $artwork_description );
+                }
+                ?>
             </div>
         </div>
 
         <?php else : ?>
 
-        <div class="static-layout flex flex-col md:flex-row md:gap-x-12 lg:gap-x-16">
+        <!-- Layout for Static Artwork (Images) -->
+        <div class="static-layout flex flex-col md:flex-row md:gap-x-12 lg:gap-x-20">
 
-            <div class="md:w-1/2 mb-8 md:mb-0">
+            <!-- Left Column: Image -->
+            <div class="md:w-1/2 lg:w-3/5 mb-8 md:mb-0">
                 <?php if ( has_post_thumbnail() ) : ?>
-                <div class="shadow-lg">
+                <div class="shadow-lg  overflow-hidden">
                     <?php the_post_thumbnail( 'large', array( 'class' => 'w-full h-auto' ) ); ?>
                 </div>
                 <?php endif; ?>
             </div>
 
-            <div class="md:w-1/2">
-                <?php 
-                        $artwork_year = get_field('year_created'); 
-                        if ( $artwork_year ) : 
-                        ?>
-                <p class="text-lg text-base-content/60 mb-2"><?php echo esc_html( $artwork_year ); ?></p>
-                <?php endif; ?>
-
-                <header class="entry-header mb-6">
-                    <?php the_title( '<h1 class="entry-title text-4xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
+            <!-- Right Column: Details -->
+            <div class="md:w-1/2 lg:w-2/5">
+                <header class="entry-header mb-4">
+                    <?php the_title( '<h1 class="entry-title text-4xl lg:text-5xl font-bold text-base-content leading-tight">', '</h1>' ); ?>
                 </header>
 
+                <!-- Meta Details: Year and Dimensions -->
+                <div class="artwork-meta text-lg text-base-content/60 mb-8">
+                    <?php 
+                    $artwork_year = get_field('artwork_year');
+                    if ( $artwork_year ) :
+                    ?>
+                    <span><?php echo esc_html( $artwork_year ); ?></span>
+                    <?php endif; ?>
+
+                    <?php
+                    $artwork_dimensions = get_field('artwork_dimensions');
+                    if ( $artwork_year && $artwork_dimensions ) {
+                        echo '<span class="mx-2">&middot;</span>'; // Separator
+                    }
+                    if ( $artwork_dimensions ) :
+                    ?>
+                    <span><?php echo esc_html( $artwork_dimensions ); ?></span>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Artwork Description -->
                 <div class="entry-content prose max-w-none text-base-content/90">
-                    <?php the_content(); ?>
+                    <?php
+                    $artwork_description = get_field('artwork_description');
+                    if ( $artwork_description ) {
+                        echo wp_kses_post( $artwork_description );
+                    }
+                    ?>
                 </div>
             </div>
         </div>

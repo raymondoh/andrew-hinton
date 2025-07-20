@@ -52,7 +52,6 @@ const hinton_portfolio_ajax_obj = <?php echo json_encode($ajax_data); ?>;
 }
 add_action('wp_head', 'hinton_portfolio_print_ajax_object');
 
-
 /**
  * Adds custom classes to the array of body classes.
  *
@@ -63,8 +62,8 @@ add_action('wp_head', 'hinton_portfolio_print_ajax_object');
  * @return array
  */
 function art_portfolio_theme_body_classes( $classes ) {
-    // Add the class to the front page and the page using the "Artist Statement & CV" template.
-    if ( is_front_page() || is_page_template('template-artist-statement.php') ) {
+    // Add the class to the front page, statement page, single artworks, and the main blog page.
+    if ( is_front_page() || is_page_template('template-artist-statement.php') || is_singular('artwork') || is_home() ) {
         $classes[] = 'has-light-background';
     }
     return $classes;
