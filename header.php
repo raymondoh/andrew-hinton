@@ -21,7 +21,7 @@
 
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center transition-all duration-300"
-                    :class="{ 'py-6': atTop, 'py-3': !atTop }">
+                    :class="{ 'py-2': atTop, 'py-3': !atTop }">
 
                     <!-- Logo -->
                     <div class="font-bold">
