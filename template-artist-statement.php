@@ -21,8 +21,8 @@ $settings_page_id = $settings_page ? $settings_page->ID : 0;
     <div class="container mx-auto px-4 py-16">
 
         <!-- MODIFICATION: Added a page header -->
-        <header class="page-header mb-12 text-center">
-            <?php the_title( '<h1 class="text-4xl lg:text-6xl font-bold font-serif text-dark">', '</h1>' ); ?>
+        <header class="page-header mb-12">
+            <?php the_title( '<h1 class="text-4xl lg:text-5xl font-bold font-serif text-dark">', '</h1>' ); ?>
         </header>
         <!-- END MODIFICATION -->
 

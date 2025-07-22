@@ -25,7 +25,7 @@ if ( $settings_page ) {
 <div class="contact-page-content">
 
     <?php if ( has_post_thumbnail() ) : ?>
-    <div class="relative bg-base-300 h-[20vh] min-h-[200px]">
+    <div class="relative bg-base-300 h-[10vh] min-h-[250px]">
         <div class="absolute inset-0">
             <?php the_post_thumbnail('full', array('class' => 'w-full h-full object-cover')); ?>
         </div>

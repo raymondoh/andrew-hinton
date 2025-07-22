@@ -21,7 +21,7 @@
 
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center transition-all duration-300"
-                    :class="{ 'py-2': atTop, 'py-3': !atTop }">
+                    :class="{ 'py-2': atTop, 'py-4': !atTop }">
 
                     <!-- Logo -->
                     <div class="font-bold">
@@ -34,7 +34,7 @@
                             class="no-underline hover:opacity-80 transition-all duration-300" :class="{
                                 'text-2xl': atTop, 
                                 'text-xl': !atTop,
-                                'text-dark': atTop && document.body.classList.contains('has-light-background'),
+                                'text-dark/90': atTop && document.body.classList.contains('has-light-background'),
                                 'text-light': !atTop || !document.body.classList.contains('has-light-background')
                             }">
                             <?php bloginfo('name'); ?>

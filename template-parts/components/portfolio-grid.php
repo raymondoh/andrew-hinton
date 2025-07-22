@@ -53,7 +53,7 @@ $page_id = get_queried_object_id();
 
     <?php if ( has_post_thumbnail($page_id) ) : ?>
     <!-- The Hero section now ONLY contains the quote -->
-    <div class="relative bg-base-300 h-[30vh] min-h-[300px]">
+    <div class="relative bg-base-300 h-[10vh] min-h-[250px]">
         <div class="absolute inset-0">
             <?php echo get_the_post_thumbnail($page_id, 'full', array('class' => 'w-full h-full object-cover')); ?>
         </div>

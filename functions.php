@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // 1. CONSTANTS & SETUP
 // -----------------------------------------------------------------------------
 
-define( 'HINTON_PORTFOLIO_VERSION', '1.0.1' );
+define( 'HINTON_PORTFOLIO_VERSION', '1.0.2' );
 define( 'HINTON_PORTFOLIO_DIR', trailingslashit( get_template_directory() ) );
 define( 'HINTON_PORTFOLIO_URI', trailingslashit( get_template_directory_uri() ) );
 
@@ -35,6 +35,9 @@ function hinton_portfolio_setup() {
         'flex-height' => true,
     ) );
     add_theme_support( 'align-wide' );
+    
+    // THE FIX: Enable support for responsive embedded content (like YouTube videos).
+    add_theme_support( 'responsive-embeds' );
 }
 add_action( 'after_setup_theme', 'hinton_portfolio_setup' );
 
@@ -158,3 +161,16 @@ class Mobile_Nav_Walker extends Walker_Nav_Menu {
     function end_lvl( &$output, $depth = 0, $args = array() ) {}
     function end_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {}
 }
+/**
+ * Adds responsive classes to embedded iframes.
+ *
+ * This function targets oEmbeds (like YouTube) and adds Tailwind classes
+ * to make them fill their parent container.
+ *
+ * @param string $html The HTML of the embed.
+ * @return string The modified HTML.
+ */
+function hinton_portfolio_responsive_embeds( $html ) {
+    return str_replace( '<iframe', '<iframe class="absolute top-0 left-0 w-full h-full"', $html );
+}
+add_filter( 'embed_oembed_html', 'hinton_portfolio_responsive_embeds', 10, 1 );
